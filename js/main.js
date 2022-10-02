@@ -33,7 +33,7 @@
 
 // console.log(a);
 
-var number = [1, 2, 3, 4, 5];
+// var number = [1, 2, 3, 4, 5];
 
 // var result = number.reduce((arr, el) => {
 // 	arr.push(el * 10);
@@ -80,10 +80,9 @@ let elInp2 = document.querySelector('.inp2');
 let elInp3 = document.querySelector('.inp3');
 let elList = document.querySelector('.js-list');
 
-let users = [];
-
 elForm.addEventListener('submit', function (evt) {
 	evt.preventDefault();
+	let users = [];
 	let val1 = elInp1.value;
 	let val2 = elInp2.value;
 	let val3 = elInp3.value;
@@ -98,18 +97,20 @@ elForm.addEventListener('submit', function (evt) {
 		phone_number: val3,
 	});
 
-	let newItem = document.createElement('li');
-	let newTitle = document.createElement('h3');
-	let newText = document.createElement('p');
-	let newLink = document.createElement('a');
+	users.forEach((el) => {
+		let newItem = document.createElement('li');
+		let newTitle = document.createElement('h3');
+		let newText = document.createElement('p');
+		let newLink = document.createElement('a');
 
-	newTitle.textContent = val1;
-	newText.textContent = val2;
-	newLink.textContent = val3;
-	newLink.href = `tel:${val3}`;
+		newTitle.textContent = el.name;
+		newText.textContent = el.relationship;
+		newLink.textContent = el.phone_number;
+		newLink.href = `tel:${el.phone_number}`;
 
-	newItem.appendChild(newTitle);
-	newItem.appendChild(newText);
-	newItem.appendChild(newLink);
-	elList.appendChild(newItem);
+		newItem.appendChild(newTitle);
+		newItem.appendChild(newText);
+		newItem.appendChild(newLink);
+		elList.appendChild(newItem);
+	});
 });
