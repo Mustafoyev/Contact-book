@@ -80,9 +80,10 @@ let elInp2 = document.querySelector('.inp2');
 let elInp3 = document.querySelector('.inp3');
 let elList = document.querySelector('.js-list');
 
+let users = [];
+
 elForm.addEventListener('submit', function (evt) {
 	evt.preventDefault();
-	let users = [];
 	let val1 = elInp1.value;
 	let val2 = elInp2.value;
 	let val3 = elInp3.value;
@@ -90,6 +91,7 @@ elForm.addEventListener('submit', function (evt) {
 	elInp1.value = '';
 	elInp2.value = '';
 	elInp3.value = '';
+	elList.innerHTML = '';
 
 	users.push({
 		name: val1,
