@@ -81,6 +81,34 @@ let elInp3 = document.querySelector('.inp3');
 let elList = document.querySelector('.js-list');
 
 let users = [];
+let sortNum = [];
+
+const viewFunc = (array, app) => {
+	app.innerHTML = '';
+	array.forEach((el) => {
+		let newItem = document.createElement('li');
+		let newTitle = document.createElement('h3');
+		let newText = document.createElement('p');
+		let newLink = document.createElement('a');
+		let newBtn = document.createElement('button');
+
+		newTitle.textContent = el.name;
+		newText.textContent = el.relationship;
+		newLink.textContent = el.phone_number;
+		newLink.href = `tel:${el.phone_number}`;
+		newLink.setAttribute('class', 'btn btn-primary');
+		newBtn.textContent = 'DELETE';
+		newBtn.type = 'submit';
+		newBtn.setAttribute('class', 'btn btn-danger ms-4 js-btn');
+		newBtn.dataset.userId = el.id;
+
+		newItem.appendChild(newTitle);
+		newItem.appendChild(newText);
+		newItem.appendChild(newLink);
+		newItem.appendChild(newBtn);
+		app.appendChild(newItem);
+	});
+};
 
 elForm.addEventListener('submit', function (evt) {
 	evt.preventDefault();
@@ -88,31 +116,60 @@ elForm.addEventListener('submit', function (evt) {
 	let val2 = elInp2.value;
 	let val3 = elInp3.value;
 
-	elInp1.value = '';
-	elInp2.value = '';
-	elInp3.value = '';
-	elList.innerHTML = '';
+	// let includArr = sortNum.includes(val3);
 
-	users.push({
-		name: val1,
-		relationship: val2,
-		phone_number: val3,
-	});
+	// if (!includArr) {
+	// 	elInp1.value = '';
+	// 	elInp2.value = '';
+	// 	elInp3.value = '';
 
-	users.forEach((el) => {
-		let newItem = document.createElement('li');
-		let newTitle = document.createElement('h3');
-		let newText = document.createElement('p');
-		let newLink = document.createElement('a');
+	// 	if (val1 !== '' && val3 !== '') {
+	// 		users.push({
+	// 			id: users.length + 1,
+	// 			name: val1,
+	// 			relationship: val2,
+	// 			phone_number: val3,
+	// 		});
+	// 	}
 
-		newTitle.textContent = el.name;
-		newText.textContent = el.relationship;
-		newLink.textContent = el.phone_number;
-		newLink.href = `tel:${el.phone_number}`;
+	// 	viewFunc(users, elList);
 
-		newItem.appendChild(newTitle);
-		newItem.appendChild(newText);
-		newItem.appendChild(newLink);
-		elList.appendChild(newItem);
-	});
+	// 	sortNum.push(val3);
+	// } else {
+	// 	alert(
+	// 		"Bu raqarm oldin ro'yxatga qo'shilgan! \n Iltimos tekshirib keyin qaytadan qo'shing",
+	// 	);
+	// }
+
+	if (sortNum.includes(val3)) {
+		alert(
+			"Bu raqarm oldin ro'yxatga qo'shilgan! \n Iltimos tekshirib keyin qaytadan qo'shing",
+		);
+	} else {
+		elInp1.value = '';
+		elInp2.value = '';
+		elInp3.value = '';
+
+		users.push({
+			id: users.length + 1,
+			name: val1,
+			relationship: val2,
+			phone_number: val3,
+		});
+
+		viewFunc(users, elList);
+
+		sortNum.push(val3);
+	}
+});
+
+elList.addEventListener('click', function (evt) {
+	if (evt.target.matches('.js-btn')) {
+		let userId = evt.target.dataset.userId;
+
+		let delUser = users.findIndex((i) => i.id == userId);
+
+		users.splice(delUser, 1);
+		viewFunc(users, elList);
+	}
 });
