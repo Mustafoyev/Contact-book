@@ -79,9 +79,10 @@ let elInp1 = document.querySelector('.inp1');
 let elInp2 = document.querySelector('.inp2');
 let elInp3 = document.querySelector('.inp3');
 let elList = document.querySelector('.js-list');
+let elDark = document.querySelector('.js-dark');
 
-let users = [];
-let sortNum = [];
+let parsyArray = JSON.parse(window.localStorage.getItem('array'));
+let users = parsyArray || [];
 
 const viewFunc = (array, app) => {
 	app.innerHTML = '';
@@ -110,56 +111,38 @@ const viewFunc = (array, app) => {
 	});
 };
 
+viewFunc(users, elList);
+
 elForm.addEventListener('submit', function (evt) {
 	evt.preventDefault();
 	let val1 = elInp1.value;
 	let val2 = elInp2.value;
 	let val3 = elInp3.value;
 
-	// let includArr = sortNum.includes(val3);
+	let sortNum = users.findIndex((item) => item.phone_number == val3);
 
-	// if (!includArr) {
-	// 	elInp1.value = '';
-	// 	elInp2.value = '';
-	// 	elInp3.value = '';
+	if (sortNum < 0) {
+		if (val1 != '' && val3 != '') {
+			elInp1.value = '';
+			elInp2.value = '';
+			elInp3.value = '';
 
-	// 	if (val1 !== '' && val3 !== '') {
-	// 		users.push({
-	// 			id: users.length + 1,
-	// 			name: val1,
-	// 			relationship: val2,
-	// 			phone_number: val3,
-	// 		});
-	// 	}
+			users.push({
+				id: users.length ? users[users.length - 1].id + 1 : 1,
+				name: val1,
+				relationship: val2,
+				phone_number: val3,
+			});
 
-	// 	viewFunc(users, elList);
-
-	// 	sortNum.push(val3);
-	// } else {
-	// 	alert(
-	// 		"Bu raqarm oldin ro'yxatga qo'shilgan! \n Iltimos tekshirib keyin qaytadan qo'shing",
-	// 	);
-	// }
-
-	if (sortNum.includes(val3)) {
+			viewFunc(users, elList);
+			window.localStorage.setItem('array', JSON.stringify(users));
+		} else {
+			alert("Iltimos ma'lumot kiriting");
+		}
+	} else {
 		alert(
 			"Bu raqarm oldin ro'yxatga qo'shilgan! \n Iltimos tekshirib keyin qaytadan qo'shing",
 		);
-	} else {
-		elInp1.value = '';
-		elInp2.value = '';
-		elInp3.value = '';
-
-		users.push({
-			id: users.length + 1,
-			name: val1,
-			relationship: val2,
-			phone_number: val3,
-		});
-
-		viewFunc(users, elList);
-
-		sortNum.push(val3);
 	}
 });
 
@@ -171,5 +154,25 @@ elList.addEventListener('click', function (evt) {
 
 		users.splice(delUser, 1);
 		viewFunc(users, elList);
+		window.localStorage.setItem('array', JSON.stringify(users));
 	}
 });
+
+let theme = false;
+
+elDark.addEventListener('click', function () {
+	theme = !theme;
+	window.localStorage.setItem('theme', theme ? 'light' : 'dark');
+
+	darkTheme();
+});
+
+function darkTheme() {
+	if (window.localStorage.getItem('theme') == 'dark') {
+		document.body.classList.add('darker');
+	} else {
+		document.body.classList.remove('darker');
+	}
+}
+
+darkTheme();

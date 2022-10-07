@@ -10462,9 +10462,31 @@ fieldset:disabled .btn {
 }
 /*# sourceMappingURL=bootstrap.min.css.map */
 
+.darker {
+	background-color: #333;
+}
+
+.darker > .container > div > .title {
+	color: var(--bs-white);
+}
+
+.darker > .container > div > .js-dark {
+	background-color: var(--bs-white);
+	color: var(--bs-black);
+}
+
+.darker > .container > div > form > h2 {
+	color: var(--bs-white);
+}
+
+.darker > .container > div > div > h2 {
+	color: var(--bs-white);
+}
+
 li {
 	margin-top: 10px;
 	padding: 15px;
-	border: 1px solid;
+	background-color: #fff;
+	border: 1px solid #000;
 	border-radius: 5px;
 }
