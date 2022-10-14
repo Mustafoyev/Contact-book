@@ -80,7 +80,7 @@ let elInp2 = document.querySelector('.inp2');
 let elInp3 = document.querySelector('.inp3');
 let elList = document.querySelector('.js-list');
 let elDark = document.querySelector('.js-dark');
-
+let addFragment = document.createDocumentFragment();
 let parsyArray = JSON.parse(window.localStorage.getItem('array'));
 let users = parsyArray || [];
 
@@ -107,8 +107,9 @@ const viewFunc = (array, app) => {
 		newItem.appendChild(newText);
 		newItem.appendChild(newLink);
 		newItem.appendChild(newBtn);
-		app.appendChild(newItem);
+		addFragment.appendChild(newItem);
 	});
+	app.appendChild(addFragment);
 };
 
 viewFunc(users, elList);
